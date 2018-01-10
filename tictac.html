@@ -1,0 +1,225 @@
+ <!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Title of the document</title>
+</head>
+<style>
+#game{
+	display:flex;
+	flex-direction:row;
+	width:300px;
+	flex-wrap:wrap;
+}
+#game div{
+	width:100px;
+	height:100px;
+}
+#game div:nth-child(1+3n){
+	border:solid 1px red;
+	
+}
+#game button{
+	height:100px;
+	width:100px;
+}
+</style>
+<body>
+<h1>Tick Tac Game</h1>
+<div id="game">
+</div>
+<div id="result">
+</div>
+<script>
+
+	var game={
+		board:document.getElementById("game"),
+		txt:"",
+		basket:[],
+		player:{
+			player1:[firstName="Player1",won="0"],
+			player2:[firstName="Player2",won="1"],
+			computer:[firstName="Computer",won="2"]
+		},
+		btn:document.getElementsByTagName("button"),
+		result:document.getElementById("result"),
+		turn : 0,
+		tickImgURL :"tick.svg",
+		crossImgURL:"cross.svg",
+		checkEmptyArray:function(){
+			return this.basket==undefined;
+		},
+		step:1,
+		createBoard:function(){
+			
+			var i;
+			for(i=0;i<9;i++){
+				var DOM_button = document.createElement("button");
+				DOM_button.type = "button";
+				DOM_button.name=i;
+				this.board.appendChild(DOM_button); 
+			}
+		},
+		createImg:function(imgUrl,holder){
+			var DOM_img = document.createElement("img");
+			DOM_img.src = imgUrl;
+			holder.appendChild(DOM_img);
+		},
+		gameOver:false,
+		
+		showResult:function(){
+			console.log("Show Result");
+			var mytxt="";
+			for(var i=0; i<this.btn.length; i++){
+				mytxt+=document.getElementsByTagName("button")[i].innerHTML+"\n";
+			}
+			
+			console.log("Step :" +this.step);
+			try{
+				if(this.basket[0]==1 && this.basket[1]==1 && this.basket[2]==1){
+					this.txt="Result : Tick Wins ";
+					this.gameOver=true;
+					this.disableClickEvent();
+				}else if(this.basket[3]==1 && this.basket[4]==1 && this.basket[5]==1){
+					this.txt="Result : Tick Wins ";
+					this.gameOver=true;
+					this.disableClickEvent();
+				}else if(this.basket[6]==1 && this.basket[7]==1 && this.basket[8]==1){
+					this.txt="Result : Tick Wins ";
+					this.gameOver=true;
+					this.disableClickEvent();
+				}else if(this.basket[0]==1 && this.basket[3]==1 && this.basket[6]==1){
+					this.txt="Result  : Tick Wins ";
+					this.gameOver=true;
+					this.gameOver=true;
+					this.disableClickEvent();
+				}else if(this.basket[1]==1 && this.basket[4]==1 && this.basket[7]==1){
+					this.txt="Result  : Tick Wins ";
+					this.gameOver=true;
+					this.disableClickEvent();
+				}else if(this.basket[2]==1 && this.basket[5]==1 && this.basket[8]==1){
+					this.txt="Result  : Tick Wins ";
+					this.gameOver=true;
+					this.disableClickEvent();
+				}else if(this.basket[0]==1 && this.basket[4]==1 && this.basket[8]==1){
+					this.txt="Result  : Tick Wins ";
+					this.gameOver=true;
+					this.disableClickEvent();
+				}else if(this.basket[6]==1 && this.basket[4]==1 && this.basket[2]==1){
+					this.txt="Result  : Tick Wins ";
+					this.gameOver=true;
+					this.disableClickEvent();
+				}else if(this.basket[0]==0 && this.basket[1]==0 && this.basket[2]==0){
+					this.txt="Result  : Cross Wins ";
+					this.gameOver=true;
+					this.disableClickEvent();
+				}else if(this.basket[3]==0 && this.basket[4]==0 && this.basket[5]==0){
+					this.txt="Result  : Cross Wins ";
+					this.gameOver=true;
+					this.disableClickEvent();
+				}else if(this.basket[6]==0 && this.basket[7]==0 && this.basket[8]==0){
+					this.txt="Result  : Cross Wins ";
+					this.gameOver=true;
+					this.disableClickEvent();
+				}else if(this.basket[0]==0 && this.basket[3]==0 && this.basket[6]==0){
+					this.txt="Result  : Cross Wins ";
+					this.gameOver=true;
+					this.disableClickEvent();
+				}else if(this.basket[1]==0 && this.basket[4]==0 && this.basket[7]==0){
+					this.txt="Result  : Cross Wins ";
+					this.gameOver=true;
+					this.disableClickEvent();
+				}else if(this.basket[2]==0 && this.basket[5]==0 && this.basket[8]==0){
+					this.txt="Result  : Cross Wins ";
+					this.gameOver=true;
+					this.disableClickEvent();
+				}else if(this.basket[0]==0 && this.basket[4]==0 && this.basket[8]==0){
+					this.txt="Result  : Cross Wins ";
+					this.gameOver=true;
+					this.disableClickEvent();
+				}else if(this.basket[6]==0 && this.basket[4]==0 && this.basket[2]==0){
+					this.txt="Result  : Cross Wins ";
+					this.gameOver=true;
+					this.disableClickEvent();
+				}else if(this.step==9){
+					this.txt="Sorry, No body wins";
+				}
+			}catch(error){
+				console.log("Error :"+error)
+			}
+			
+			console.log(this.txt);
+			this.result.innerHTML=this.txt;
+			
+			
+			
+		},
+		disableClickEvent:function(e){
+			console.log("Disabled Process");
+			for(var i=0; i<this.btn.length; i++){
+					this.btn[i].removeEventListener("click",function(){});
+					this.btn[i].disabled=true;
+				}
+		},
+		setClickEvent:function(e){
+			if(this.gameOver==false){
+						for(var i=0; i<this.btn.length; i++){
+							document.getElementsByTagName("button")[i].addEventListener("click",function(e){
+							game.gameRun(e);
+						});
+					}
+				}else{
+					console.log("Game is Over");
+				}
+				
+		},
+		btnClickAction:function(e){
+			console.log(e.target.innerHTML);
+		},
+		gameRun:function(e){
+			this.clickShow(e);
+		},
+		clickShow:function(e){
+			try{
+				console.log("Node :" +e.target.name + typeof e.target.name);
+				
+				if(this.turn=="undefined"){
+					this.turn=0;
+					//e.target.innerHTML=this.turn;
+					this.createImg(this.crossImgURL,e.target);
+					this.basket[parseInt(e.target.name)]=this.turn;
+					e.target.disabled=true;
+					this.showResult(e);
+					console.log("Condition(1) : Value is undefine so false");
+					
+				}else if(this.turn==0){
+					this.turn=1;
+					//e.target.innerHTML=this.turn;
+					this.createImg(this.tickImgURL,e.target);
+					this.basket[parseInt(e.target.name)]=this.turn;
+					e.target.disabled=true;
+					this.showResult(e);
+					console.log("Condition(2) :Value is false so true");
+				}else if(this.turn==1){
+					this.turn=0;
+					//e.target.innerHTML=this.turn;
+					this.createImg(this.crossImgURL,e.target);
+					this.basket[parseInt(e.target.name)]=this.turn;
+					e.target.disabled=true;
+					this.showResult(e);
+					console.log("Condition(3) :Value is true so false");
+				}
+				this.step++;
+			}catch(error){
+				console.log("Error :" +error)
+			}
+			
+		},
+		
+	}
+	game.createBoard();
+	game.setClickEvent();
+	console.log("Players : "+game.player.player1[0]);
+</script>
+</body>
+</html> 
