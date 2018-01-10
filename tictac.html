@@ -15,17 +15,36 @@
 	width:100px;
 	height:100px;
 }
+
 #game div:nth-child(1+3n){
 	border:solid 1px red;
 	
 }
+#game button.vsBtn{
+	width:100%;
+}
 #game button{
 	height:100px;
 	width:100px;
+	background:none;
+	border:none;
+	cursor:pointer;
+}
+#result{
+	font-size:30px;
+}
+#game button:nth-child(1),#game button:nth-child(2),#game button:nth-child(3),#game button:nth-child(4),#game button:nth-child(5),#game button:nth-child(6){
+	border-bottom:solid 10px black;
+}
+#game button:nth-child(1),#game button:nth-child(2),#game button:nth-child(4),#game button:nth-child(5),#game button:nth-child(7),#game button:nth-child(8){
+	border-right:solid 10px black;
+}
+#game button.win{
+	background:#d4e4bd;
 }
 </style>
 <body>
-<h1>Tick Tac Game</h1>
+<header></header>
 <div id="game">
 </div>
 <div id="result">
@@ -34,12 +53,27 @@
 
 	var game={
 		board:document.getElementById("game"),
+		header:document.getElementsByTagName("header"),
 		txt:"",
+		winBlock:[],
 		basket:[],
-		player:{
-			player1:[firstName="Player1",won="0"],
-			player2:[firstName="Player2",won="1"],
-			computer:[firstName="Computer",won="2"]
+		player:[
+			{firstName:"Player1",won:"0"},
+			{firstName:"Player2",won:"1"},
+			{firstName:"Computer",won:"2"}
+		],
+		showHeader:function(){
+			console.log("game.showHeader()");
+			var DOM_header = document.createElement("h1");
+			DOM_header.innerHTML="Tick Tac Game";
+			this.header[0].appendChild(DOM_header);
+		},
+		setBg:function(){
+			console.log(this.winBlock);
+			var i;
+			for(i=0; i<this.winBlock.length; i++){
+				this.btn[this.winBlock[i]].className="win";
+			}
 		},
 		btn:document.getElementsByTagName("button"),
 		result:document.getElementById("result"),
@@ -77,68 +111,100 @@
 			console.log("Step :" +this.step);
 			try{
 				if(this.basket[0]==1 && this.basket[1]==1 && this.basket[2]==1){
+					this.winBlock=[0,1,2];
 					this.txt="Result : Tick Wins ";
+					this.setBg();
 					this.gameOver=true;
 					this.disableClickEvent();
 				}else if(this.basket[3]==1 && this.basket[4]==1 && this.basket[5]==1){
+					this.winBlock=[3,4,5];
 					this.txt="Result : Tick Wins ";
+					this.setBg();
 					this.gameOver=true;
 					this.disableClickEvent();
 				}else if(this.basket[6]==1 && this.basket[7]==1 && this.basket[8]==1){
+					this.winBlock=[6,7,8];
 					this.txt="Result : Tick Wins ";
+					this.setBg();
 					this.gameOver=true;
 					this.disableClickEvent();
 				}else if(this.basket[0]==1 && this.basket[3]==1 && this.basket[6]==1){
+					this.winBlock=[0,3,6];
 					this.txt="Result  : Tick Wins ";
+					this.setBg();
 					this.gameOver=true;
-					this.gameOver=true;
+					
 					this.disableClickEvent();
 				}else if(this.basket[1]==1 && this.basket[4]==1 && this.basket[7]==1){
+					this.winBlock=[1,4,7];
 					this.txt="Result  : Tick Wins ";
+					this.setBg();
 					this.gameOver=true;
 					this.disableClickEvent();
 				}else if(this.basket[2]==1 && this.basket[5]==1 && this.basket[8]==1){
+					this.winBlock=[2,5,8];
 					this.txt="Result  : Tick Wins ";
+					this.setBg();
 					this.gameOver=true;
 					this.disableClickEvent();
 				}else if(this.basket[0]==1 && this.basket[4]==1 && this.basket[8]==1){
+					this.winBlock=[0,4,8];
+					this.setBg();
 					this.txt="Result  : Tick Wins ";
 					this.gameOver=true;
 					this.disableClickEvent();
 				}else if(this.basket[6]==1 && this.basket[4]==1 && this.basket[2]==1){
+					this.winBlock=[6,4,2];
 					this.txt="Result  : Tick Wins ";
+					this.setBg();
 					this.gameOver=true;
 					this.disableClickEvent();
 				}else if(this.basket[0]==0 && this.basket[1]==0 && this.basket[2]==0){
+					this.winBlock=[0,1,2];
 					this.txt="Result  : Cross Wins ";
+					this.setBg();
 					this.gameOver=true;
 					this.disableClickEvent();
 				}else if(this.basket[3]==0 && this.basket[4]==0 && this.basket[5]==0){
+					this.winBlock=[3,4,5];
 					this.txt="Result  : Cross Wins ";
+					this.setBg();
 					this.gameOver=true;
 					this.disableClickEvent();
 				}else if(this.basket[6]==0 && this.basket[7]==0 && this.basket[8]==0){
+					this.winBlock=[6,7,8];
 					this.txt="Result  : Cross Wins ";
+					this.setBg();
 					this.gameOver=true;
 					this.disableClickEvent();
 				}else if(this.basket[0]==0 && this.basket[3]==0 && this.basket[6]==0){
+					this.winBlock=[0,3,6];
 					this.txt="Result  : Cross Wins ";
+					this.setBg();
 					this.gameOver=true;
 					this.disableClickEvent();
 				}else if(this.basket[1]==0 && this.basket[4]==0 && this.basket[7]==0){
+					this.winBlock=[1,4,7];
 					this.txt="Result  : Cross Wins ";
+					this.setBg();
 					this.gameOver=true;
 					this.disableClickEvent();
 				}else if(this.basket[2]==0 && this.basket[5]==0 && this.basket[8]==0){
+					this.winBlock=[2,5,8];
 					this.txt="Result  : Cross Wins ";
+					this.setBg();
 					this.gameOver=true;
 					this.disableClickEvent();
 				}else if(this.basket[0]==0 && this.basket[4]==0 && this.basket[8]==0){
+					this.winBlock=[0,4,8];
 					this.txt="Result  : Cross Wins ";
+					this.setBg();
 					this.gameOver=true;
 					this.disableClickEvent();
 				}else if(this.basket[6]==0 && this.basket[4]==0 && this.basket[2]==0){
+					this.winBlock=[6,4,2];
 					this.txt="Result  : Cross Wins ";
+					this.setBg();
 					this.gameOver=true;
 					this.disableClickEvent();
 				}else if(this.step==9){
@@ -217,9 +283,12 @@
 		},
 		
 	}
+	
+	
+	game.showHeader();
 	game.createBoard();
 	game.setClickEvent();
-	console.log("Players : "+game.player.player1[0]);
+	console.log("Players : "+game.player[2].firstName);
 </script>
 </body>
 </html> 
